@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
+    <!-- Header layout with a title and search icon -->
     <LinearLayout
         android:id="@+id/linear_header"
         android:layout_width="match_parent"
@@ -37,4 +38,19 @@
             android:scaleType="centerCrop"
             android:src="@drawable/img_search" />
     </LinearLayout>
+
+    <!-- TextView for asking user food preferences below linear_header -->
+    <TextView
+        android:id="@+id/tv_would_like_to_eat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/myfont"
+        android:text="What would you like to eat"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/linear_header"
+        app:layout_constraintTop_toBottomOf="@id/linear_header" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

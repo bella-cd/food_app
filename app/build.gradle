@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'pt.ipg.food_app'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "pt.ipg.food_app"
         minSdk 16
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

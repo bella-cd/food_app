@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
 // Perform a network request to fetch a random meal using Retrofit.
 // Handle the response in the onResponse and onFailure callbacks.
 // If the response is successful, load the meal's image using Glide into the ImageView.

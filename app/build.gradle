@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:+'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     def nav_version = "2.7.2"
    // def lifecycle_version = "2.4.0-rc01"
 

@@ -80,6 +80,7 @@
 
                 <!-- This TextView displaying category information -->
                 <TextView
+                    android:id="@+id/tv_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/img_cat"
@@ -90,6 +91,7 @@
                     android:layout_weight="1"/>
                 <!-- This TextView displaying area information -->
                 <TextView
+                    android:id="@+id/tv_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/img_loc"
@@ -117,6 +119,7 @@
                 android:textSize="@dimen/_15ssp"/>
 
             <TextView
+                android:id="@+id/tv_instruction1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@+id/tv_instructions"

@@ -136,4 +136,14 @@
             android:src="@drawable/img_video"
             android:layout_marginBottom="@dimen/_10sdp"/>
 
+    <!-- LinearProgressIndicator for loading progress anchored to 'appBar'. -->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom"
+        android:visibility="gone"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

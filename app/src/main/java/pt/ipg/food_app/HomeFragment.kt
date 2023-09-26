@@ -26,6 +26,14 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
     private lateinit var homeMvvm : HomeViewModel
+    private lateinit var randomMeal: Meal
+
+    // Companion object containing keys for passing meal-related data between components.
+    companion object{
+        const val MEAL_ID ="pt.ipg.food_app.fragments.idMeal"
+        const val MEAL_NAME ="pt.ipg.food_app.fragments.nameMeal"
+        const val MEAL_THUMB ="pt.ipg.food_app.fragments.thumbMeal"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeMvvm = ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -55,18 +63,22 @@ class HomeFragment : Fragment() {
     private fun onRandomMealClick() {
        binding.randomMeal.setOnClickListener {
            val intent = Intent(activity,MealActivity::class.java)
+           //These lines of code to prepare an intent with meal-related data as extras for launching another activity.
+           intent.putExtra(MEAL_ID,randomMeal.idMeal)
+           intent.putExtra(MEAL_NAME,randomMeal.strMeal)
+           intent.putExtra(MEAL_THUMB,randomMeal.strMealThumb)
            startActivity(intent)
        }
     }
 
+    // Observes changes in LiveData for a random meal and updates the UI with the meal's thumbnail image using Glide.
     private fun observerRandomMeal() {
-        homeMvvm.observeRandomMealLivedata().observe(viewLifecycleOwner, object : Observer<Meal> {
-
-            override fun onChanged(t : Meal) {
+        homeMvvm.observeRandomMealLivedata().observe(viewLifecycleOwner,
+            {meal ->
                 Glide.with(this@HomeFragment)
-                    .load(t!!.strMealThumb)
+                    .load(meal!!.strMealThumb)
                     .into(binding.imgRandomMeal)
-            }
+                this.randomMeal = meal
 
         })
 

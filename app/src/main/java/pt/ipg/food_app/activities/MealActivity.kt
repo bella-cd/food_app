@@ -1,7 +1,10 @@
 package pt.ipg.food_app.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +21,7 @@ class MealActivity : AppCompatActivity() {
     private lateinit var mealName:String
     private lateinit var mealThumb:String
     private lateinit var binding: ActivityMealBinding
+    private lateinit var youtubeLink:String
     private lateinit var mealMvvm: MealViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +36,28 @@ class MealActivity : AppCompatActivity() {
         // Populate the view with meal information.
         getInformationInView()
 
+        loadingCase()
+
         // Fetch meal details and observe LiveData for updates.
         mealMvvm.getMealDetails(mealId)
         observerMealDetailsLiveData()
+
+        onYoutubeImageClick()
+    }
+
+    // Function to Handle when click on the YouTube image, opening the video link in the default media player.
+    private fun onYoutubeImageClick() {
+        binding.imgYoutube.setOnClickListener {
+            val intent = Intent (Intent.ACTION_VIEW, Uri.parse(youtubeLink))
+            startActivity(intent)
+        }
     }
 
     // this function Observe changes in the LiveData for meal details.
     private fun observerMealDetailsLiveData() {
         mealMvvm.observerDetailsLiveData().observe(this, object : Observer<Meal>{
             override fun onChanged(t: Meal) {
+                onResponseCase()
                 // Assign the observed 'Meal' data to a local variable 'meal'
                 val meal = t
 
@@ -48,6 +65,9 @@ class MealActivity : AppCompatActivity() {
                 binding.tvCategory.text = "Category : ${meal!!.strCategory}"
                 binding.tvArea.text = "Area : ${meal.strArea}"
                 binding.tvInstruction1.text = meal.strInstructions
+
+                youtubeLink = meal.strYoutube
+
             }
 
         })
@@ -71,5 +91,27 @@ class MealActivity : AppCompatActivity() {
         mealName = intent.getStringExtra(HomeFragment.MEAL_NAME)!!
         mealThumb = intent.getStringExtra(HomeFragment.MEAL_THUMB)!!
 
+    }
+
+    //This function is used to hide various UI elements
+    // (e.g., buttons, text views) and display a progress bar to indicate that the app is in a loading state.
+    private  fun loadingCase(){
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnAddToFav.visibility = View.INVISIBLE
+        binding.tvInstructions.visibility = View.INVISIBLE
+        binding.tvCategory.visibility = View.INVISIBLE
+        binding.tvArea.visibility = View.INVISIBLE
+        binding.imgYoutube.visibility = View.INVISIBLE
+    }
+
+    //After a successful response, this function makes UI elements (buttons, text views, etc.)
+    // visible again while hiding the progress bar to display the retrieved content to the user.
+    private fun onResponseCase(){
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.btnAddToFav.visibility = View.VISIBLE
+        binding.tvInstructions.visibility = View.VISIBLE
+        binding.tvCategory.visibility = View.VISIBLE
+        binding.tvArea.visibility = View.VISIBLE
+        binding.imgYoutube.visibility = View.VISIBLE
     }
 }

@@ -46,6 +46,7 @@
 
  <!--The below code represents a Material Design Floating Action Button (FAB) in an Android layout.-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add_to_fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/img_fav"

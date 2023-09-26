@@ -67,6 +67,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/Linear_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -98,9 +99,41 @@
                     android:drawableTint="@color/g_black"
                     android:layout_weight="1"/>
 
-
             </LinearLayout>
+
+            <!--These below TextViews are used to display instructions and additional text content.-->
+            <TextView
+                android:id="@+id/tv_instructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- Instruction :"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="@font/myfont"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Linear_Layout"
+                android:textSize="@dimen/_15ssp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tv_instructions"
+                app:layout_constraintTop_toBottomOf="@id/tv_instructions"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:textColor="@color/g_black"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- The ImageView Represents an icon for YouTube content.-->
+        <ImageView
+            android:id="@+id/img_youtube"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="bottom|center"
+            android:src="@drawable/img_video"
+            android:layout_marginBottom="@dimen/_10sdp"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>

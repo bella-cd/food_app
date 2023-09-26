@@ -55,4 +55,52 @@
         app:tint="@color/white"
         android:layout_marginEnd="@dimen/_10sdp"/>
 
+    <!--The below code defines a layout hierarchy consisting of a NestedScrollView within a ConstraintLayout.
+    Inside the ConstraintLayout, there is a LinearLayout containing two TextViews side by side.-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- This TextView displaying category information -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/img_cat"
+                    android:text="Category : Meat"
+                    android:textStyle="bold"
+                    android:textColor="@color/g_black"
+                    android:drawableTint="@color/g_black"
+                    android:layout_weight="1"/>
+                <!-- This TextView displaying area information -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/img_loc"
+                    android:text="Area :Portugal "
+                    android:textColor="@color/g_black"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/g_black"
+                    android:layout_weight="1"/>
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 package pt.ipg.food_app.retrofit
 
 import pt.ipg.food_app.dataclass.CategoryList
+import pt.ipg.food_app.dataclass.MealByCategoryList
 import pt.ipg.food_app.dataclass.MealList
 import retrofit2.Call
 import retrofit2.http.GET
@@ -18,5 +19,8 @@ interface FoodApi {
 
     // Retrofit GET request to fetch popular food items filtered by category name.
     @GET("filter.php?")
-    fun getPopularItems(@Query("c") categoryName: String) : Call<CategoryList>
+    fun getPopularItems(@Query("c") categoryName: String) : Call<MealByCategoryList>
+
+    @GET ("categories.php")
+    fun getCategories(): Call<CategoryList>
 }

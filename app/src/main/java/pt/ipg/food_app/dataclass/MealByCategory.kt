@@ -1,6 +1,6 @@
 package pt.ipg.food_app.dataclass
 
-data class CategoryMeals(
+data class MealByCategory(
     val idMeal: String,
     val strMeal: String,
     val strMealThumb: String

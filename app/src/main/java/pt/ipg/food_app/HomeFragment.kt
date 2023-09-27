@@ -15,14 +15,9 @@ import com.bumptech.glide.Glide
 import pt.ipg.food_app.activities.MealActivity
 import pt.ipg.food_app.adapters.MostPopularAdapter
 import pt.ipg.food_app.databinding.FragmentHomeBinding
-import pt.ipg.food_app.dataclass.CategoryMeals
+import pt.ipg.food_app.dataclass.MealByCategory
 import pt.ipg.food_app.dataclass.Meal
-import pt.ipg.food_app.dataclass.MealList
-import pt.ipg.food_app.retrofit.RetrofitInstance
 import pt.ipg.food_app.viewModel.HomeViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -69,7 +64,17 @@ class HomeFragment : Fragment() {
         observerPopularItemsLiveData()
         onPopularItemClick()
 
+        homeMvvm.getCategories()
+        observerCategoriesLiveData()
 
+    }
+    // Observe changes in the LiveData for categories and log category names for testing.
+    private fun observerCategoriesLiveData() {
+       homeMvvm.observerCategoriesLiveData().observe(viewLifecycleOwner, Observer { categories->
+        categories.forEach {category ->
+            Log.d("test", category.strCategory)
+        }
+       })
     }
 
     // fun to  Handle item click in the popular items RecyclerView.
@@ -94,12 +99,12 @@ class HomeFragment : Fragment() {
 
     // Observe changes in the LiveData for popular food items and update the adapter.
     private fun observerPopularItemsLiveData() {
-       homeMvvm.observerPopularItemsLiveData().observe(viewLifecycleOwner,
-           { mealList->
-               // Update the adapter with the list of popular food items.
-               popularItemsAdapter.setMeals(mealsList = mealList as ArrayList<CategoryMeals>)
+       homeMvvm.observerPopularItemsLiveData().observe(viewLifecycleOwner
+       ) { mealList ->
+           // Update the adapter with the list of popular food items.
+           popularItemsAdapter.setMeals(mealsList = mealList as ArrayList<MealByCategory>)
 
-           })
+       }
     }
 
     // This function handles the click event of the "randomMeal" button.
@@ -116,14 +121,14 @@ class HomeFragment : Fragment() {
 
     // Observes changes in LiveData for a random meal and updates the UI with the meal's thumbnail image using Glide.
     private fun observerRandomMeal() {
-        homeMvvm.observeRandomMealLivedata().observe(viewLifecycleOwner,
-            {meal ->
-                Glide.with(this@HomeFragment)
-                    .load(meal!!.strMealThumb)
-                    .into(binding.imgRandomMeal)
-                this.randomMeal = meal
+        homeMvvm.observeRandomMealLivedata().observe(viewLifecycleOwner
+        ) { meal ->
+            Glide.with(this@HomeFragment)
+                .load(meal!!.strMealThumb)
+                .into(binding.imgRandomMeal)
+            this.randomMeal = meal
 
-        })
+        }
 
     }
 

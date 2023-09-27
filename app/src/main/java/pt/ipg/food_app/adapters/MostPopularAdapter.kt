@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import pt.ipg.food_app.databinding.PopularItemsBinding
-import pt.ipg.food_app.dataclass.CategoryMeals
+import pt.ipg.food_app.dataclass.MealByCategory
 
 // Adapter for displaying a list of most popular meals
 class MostPopularAdapter(): RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
 
 
-    lateinit var onItemsClick:((CategoryMeals)-> Unit)
-    private var  mealsList = ArrayList<CategoryMeals>()
+    lateinit var onItemsClick:((MealByCategory)-> Unit)
+    private var  mealsList = ArrayList<MealByCategory>()
 
     // Function to set a new list of meals and notify the adapter of the data change.
-    fun setMeals(mealsList : ArrayList<CategoryMeals>){
+    fun setMeals(mealsList : ArrayList<MealByCategory>){
         this.mealsList= mealsList
         notifyDataSetChanged()
     }

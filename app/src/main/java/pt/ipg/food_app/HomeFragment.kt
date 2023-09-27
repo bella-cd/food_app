@@ -67,8 +67,21 @@ class HomeFragment : Fragment() {
 
         homeMvvm.getPopularItems()
         observerPopularItemsLiveData()
+        onPopularItemClick()
 
 
+    }
+
+    // fun to  Handle item click in the popular items RecyclerView.
+ private fun onPopularItemClick() {
+        popularItemsAdapter.onItemsClick = {meal ->
+          val intent = Intent(activity,MealActivity::class.java)
+          intent.putExtra(MEAL_ID,meal.idMeal)
+          intent.putExtra(MEAL_NAME,meal.strMeal)
+          intent.putExtra(MEAL_THUMB,meal.strMealThumb)
+          startActivity(intent)
+
+        }
     }
 
     // Configure and prepare the RecyclerView to display popular food items horizontally.

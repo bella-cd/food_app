@@ -9,6 +9,9 @@ import pt.ipg.food_app.dataclass.CategoryMeals
 
 // Adapter for displaying a list of most popular meals
 class MostPopularAdapter(): RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
+
+
+    lateinit var onItemsClick:((CategoryMeals)-> Unit)
     private var  mealsList = ArrayList<CategoryMeals>()
 
     // Function to set a new list of meals and notify the adapter of the data change.
@@ -28,6 +31,11 @@ class MostPopularAdapter(): RecyclerView.Adapter<MostPopularAdapter.PopularMealV
        Glide.with(holder.itemView)
            .load(mealsList[position].strMealThumb)
            .into(holder.binding.imgPopularMealItem)
+
+// Set up a click listener for RecyclerView items and invoke a callback function when clicked.
+        holder.itemView.setOnClickListener {
+            onItemsClick.invoke(mealsList[position])
+        }
 
     }
 

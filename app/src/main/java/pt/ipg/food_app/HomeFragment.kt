@@ -10,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import pt.ipg.food_app.activities.MealActivity
+import pt.ipg.food_app.adapters.MostPopularAdapter
 import pt.ipg.food_app.databinding.FragmentHomeBinding
+import pt.ipg.food_app.dataclass.CategoryMeals
 import pt.ipg.food_app.dataclass.Meal
 import pt.ipg.food_app.dataclass.MealList
 import pt.ipg.food_app.retrofit.RetrofitInstance
@@ -27,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding : FragmentHomeBinding
     private lateinit var homeMvvm : HomeViewModel
     private lateinit var randomMeal: Meal
+    private lateinit var popularItemsAdapter:MostPopularAdapter
 
     // Companion object containing keys for passing meal-related data between components.
     companion object{
@@ -37,6 +41,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeMvvm = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        popularItemsAdapter = MostPopularAdapter()
 
         }
 
@@ -53,12 +59,36 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preparePopularItemsRecycleView()
+
          homeMvvm.getRandomMeal()
          observerRandomMeal()
          onRandomMealClick()
 
+        homeMvvm.getPopularItems()
+        observerPopularItemsLiveData()
+
 
     }
+
+    // Configure and prepare the RecyclerView to display popular food items horizontally.
+    private fun preparePopularItemsRecycleView() {
+     binding.recViewMealsPopular.apply {
+         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+         adapter = popularItemsAdapter
+     }
+    }
+
+    // Observe changes in the LiveData for popular food items and update the adapter.
+    private fun observerPopularItemsLiveData() {
+       homeMvvm.observerPopularItemsLiveData().observe(viewLifecycleOwner,
+           { mealList->
+               // Update the adapter with the list of popular food items.
+               popularItemsAdapter.setMeals(mealsList = mealList as ArrayList<CategoryMeals>)
+
+           })
+    }
+
     // This function handles the click event of the "randomMeal" button.
     private fun onRandomMealClick() {
        binding.randomMeal.setOnClickListener {

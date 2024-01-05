@@ -21,6 +21,11 @@ interface FoodApi {
     @GET("filter.php?")
     fun getPopularItems(@Query("c") categoryName: String) : Call<MealByCategoryList>
 
+    // Retrofit endpoint to fetch a list of meal categories.
     @GET ("categories.php")
     fun getCategories(): Call<CategoryList>
+
+    // Retrofit GET request to fetch meals filtered by category name.
+    @GET("filter.php")
+    fun getMealByCategory(@Query ("c") categoryName: String) : Call <MealByCategoryList>
 }

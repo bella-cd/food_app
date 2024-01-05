@@ -20,7 +20,7 @@ class HomeViewModel (): ViewModel(){
     private var randomMealLiveData = MutableLiveData<Meal>()
 
     private var popularItemsLiveData = MutableLiveData<List<MealByCategory>>()
-    private var  categoryLiveData = MutableLiveData<List<Category>>()
+    private var  categoriesLiveData = MutableLiveData<List<Category>>()
 
     // Function to fetch a random meal from the network
     fun getRandomMeal(){
@@ -69,7 +69,7 @@ class HomeViewModel (): ViewModel(){
          override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
              // Check if the response body is not null and update LiveData with categories.
             response.body()?.let {  categoryList ->
-                categoryLiveData.postValue(categoryList.categories)
+                categoriesLiveData.postValue(categoryList.categories)
             }
          }
 
@@ -81,8 +81,6 @@ class HomeViewModel (): ViewModel(){
      })
 
  }
-
-
     // Function to observe the MutableLiveData for random meal data
     fun observeRandomMealLivedata(): LiveData<Meal>{
         return randomMealLiveData
@@ -95,6 +93,6 @@ class HomeViewModel (): ViewModel(){
 
     // Function to provide LiveData for observing changes in the list of categories.
     fun observerCategoriesLiveData(): LiveData<List<Category>>{
-        return categoryLiveData
+        return categoriesLiveData
     }
 }

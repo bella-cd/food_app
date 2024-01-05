@@ -10,9 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import pt.ipg.food_app.activities.MealActivity
+import pt.ipg.food_app.adapters.CategoriesAdapter
 import pt.ipg.food_app.adapters.MostPopularAdapter
 import pt.ipg.food_app.databinding.FragmentHomeBinding
 import pt.ipg.food_app.dataclass.MealByCategory
@@ -26,6 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeMvvm : HomeViewModel
     private lateinit var randomMeal: Meal
     private lateinit var popularItemsAdapter:MostPopularAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     // Companion object containing keys for passing meal-related data between components.
     companion object{
@@ -64,16 +68,28 @@ class HomeFragment : Fragment() {
         observerPopularItemsLiveData()
         onPopularItemClick()
 
+        prepareCategoriesRecyclerView()
         homeMvvm.getCategories()
         observerCategoriesLiveData()
 
+
+
     }
+
+    private fun prepareCategoriesRecyclerView() {
+        categoriesAdapter = CategoriesAdapter()
+        binding.categoryCard.findViewById<RecyclerView>(R.id.recycler_view).apply {
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
+            adapter = categoriesAdapter
+        }
+    }
+
     // Observe changes in the LiveData for categories and log category names for testing.
     private fun observerCategoriesLiveData() {
        homeMvvm.observerCategoriesLiveData().observe(viewLifecycleOwner, Observer { categories->
-        categories.forEach {category ->
-            Log.d("test", category.strCategory)
-        }
+       categoriesAdapter.setCategoriesList(categories)
+
+
        })
     }
 

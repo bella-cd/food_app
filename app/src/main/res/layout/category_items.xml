@@ -8,12 +8,12 @@
     <!-- ImageView for displaying the category image. -->
     <ImageView
         android:id="@+id/img_category"
-        android:layout_width="@dimen/_80sdp"
-        android:layout_height="@dimen/_80sdp"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_65sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:src="@color/accent"/>
 
     <!-- TextView for displaying the category name. -->
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="@dimen/_15ssp"
-        android:text="Category name "
+        android:text="Category name"
         android:textColor="@color/black"
         android:fontFamily="@font/myfont"
        android:layout_marginTop="@dimen/_3sdp" />

@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import pt.ipg.food_app.activities.CategoryMealsActivity
 import pt.ipg.food_app.activities.MealActivity
 import pt.ipg.food_app.adapters.CategoriesAdapter
 import pt.ipg.food_app.adapters.MostPopularAdapter
 import pt.ipg.food_app.databinding.FragmentHomeBinding
+import pt.ipg.food_app.dataclass.Category
 import pt.ipg.food_app.dataclass.MealByCategory
 import pt.ipg.food_app.dataclass.Meal
 import pt.ipg.food_app.viewModel.HomeViewModel
@@ -30,12 +32,14 @@ class HomeFragment : Fragment() {
     private lateinit var randomMeal: Meal
     private lateinit var popularItemsAdapter:MostPopularAdapter
     private lateinit var categoriesAdapter: CategoriesAdapter
+    
 
     // Companion object containing keys for passing meal-related data between components.
     companion object{
         const val MEAL_ID ="pt.ipg.food_app.fragments.idMeal"
         const val MEAL_NAME ="pt.ipg.food_app.fragments.nameMeal"
         const val MEAL_THUMB ="pt.ipg.food_app.fragments.thumbMeal"
+        const val CATEGORY_NAME = "pt.ipg.food_app.fragments.categoryName"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +75,22 @@ class HomeFragment : Fragment() {
         prepareCategoriesRecyclerView()
         homeMvvm.getCategories()
         observerCategoriesLiveData()
+        onCategoryClick()
 
 
 
     }
+
+    // Set up click handling for categories to navigate to CategoryMealsActivity.
+    private fun onCategoryClick() {
+        // Set onItemClick callback to start CategoryMealsActivity with the selected category.
+        categoriesAdapter.onItemClick = { category ->
+            val intent = Intent(activity, CategoryMealsActivity::class.java)
+            intent.putExtra(CATEGORY_NAME, category.strCategory)
+            startActivity(intent)
+        }
+    }
+
 
     private fun prepareCategoriesRecyclerView() {
         categoriesAdapter = CategoriesAdapter()

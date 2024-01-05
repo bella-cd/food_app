@@ -11,6 +11,9 @@ import pt.ipg.food_app.dataclass.Category
 class CategoriesAdapter(): RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
     private  var categoriesList = ArrayList<Category>()
 
+    //variable representing a click listener for RecyclerView item clicks, specifically for Category items.
+    var onItemClick : ((Category) ->Unit)? = null
+
     // Set the list of categories and notify data changes.
     fun setCategoriesList (categoriesList: List<Category>){
         this.categoriesList = categoriesList as ArrayList<Category>
@@ -33,6 +36,11 @@ class CategoriesAdapter(): RecyclerView.Adapter<CategoriesAdapter.CategoryViewHo
         // Bind data to views within the ViewHolder.
      Glide.with(holder.itemView).load(categoriesList[position].strCategoryThumb).into(holder.binding.imgCategory)
         holder.binding.tvCategoryName.text = categoriesList[position].strCategory
+
+        // Item click listener for invoking onItemClick with the selected Category.
+     holder.itemView.setOnClickListener {
+         onItemClick!!.invoke(categoriesList[position])
+     }
     }
 
 

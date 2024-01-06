@@ -75,6 +75,9 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.2"
     implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
+
+    //This implementation includes Kotlin extensions for AndroidX ViewModel,
+    // enabling concise and lifecycle-aware ViewModel interaction in Kotlin code.
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
     // Room database version
     def room_version= "2.6.1"

@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -13,7 +14,9 @@ import pt.ipg.food_app.HomeFragment
 import pt.ipg.food_app.R
 import pt.ipg.food_app.databinding.ActivityMealBinding
 import pt.ipg.food_app.dataclass.Meal
+import pt.ipg.food_app.db.MealDatabase
 import pt.ipg.food_app.viewModel.MealViewModel
+import pt.ipg.food_app.viewModel.MealViewModelFactory
 
 class MealActivity : AppCompatActivity() {
     // Late-initialized properties to store meal-related information and binding for the MealActivity.
@@ -28,8 +31,13 @@ class MealActivity : AppCompatActivity() {
         binding = ActivityMealBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize the MealDatabase and create a ViewModelFactory to instantiate the MealViewModel.
+        val mealDatabase =  MealDatabase.getInstance(this)
+        val viewModelFactory = MealViewModelFactory(mealDatabase)
+        mealMvvm = ViewModelProvider(this,viewModelFactory)[MealViewModel::class.java]
+
         // Initialize the MealViewModel using ViewModelProvider.
-        mealMvvm = ViewModelProvider(this).get(MealViewModel::class.java)
+       // mealMvvm = ViewModelProvider(this).get(MealViewModel::class.java)
 
         // Retrieve meal information from the intent.
         getMealInformationFromIntent()
@@ -43,6 +51,18 @@ class MealActivity : AppCompatActivity() {
         observerMealDetailsLiveData()
 
         onYoutubeImageClick()
+        onFavoriteClick()
+    }
+
+    // Handles the click event for adding a meal to favorites,
+    // invoking the insertMeal method from the ViewModel.
+    private fun onFavoriteClick() {
+        binding.btnAddToFav.setOnClickListener {
+            mealToSave?.let { 
+                mealMvvm.insertMeal(it)
+                Toast.makeText(this,"Meal is save", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     // Function to Handle when click on the YouTube image, opening the video link in the default media player.
@@ -53,6 +73,7 @@ class MealActivity : AppCompatActivity() {
         }
     }
 
+    private var mealToSave:Meal?=null
     // this function Observe changes in the LiveData for meal details.
     private fun observerMealDetailsLiveData() {
         mealMvvm.observerDetailsLiveData().observe(this, object : Observer<Meal>{
@@ -60,6 +81,8 @@ class MealActivity : AppCompatActivity() {
                 onResponseCase()
                 // Assign the observed 'Meal' data to a local variable 'meal'
                 val meal = t
+
+                mealToSave = meal
 
                 // Update UI text views with meal category, area, and instructions.
                 binding.tvCategory.text = "Category : ${meal!!.strCategory}"

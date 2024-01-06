@@ -4,15 +4,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import pt.ipg.food_app.dataclass.Meal
 import pt.ipg.food_app.dataclass.MealList
+import pt.ipg.food_app.db.MealDatabase
 import pt.ipg.food_app.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 // ViewModel for handling meal details data retrieval and observation.
-class MealViewModel:ViewModel() {
+class MealViewModel (
+    val mealDatabase : MealDatabase
+):ViewModel() {
     private var mealDetailsLiveData = MutableLiveData<Meal>()
 
     // Function to fetch meal details by ID using Retrofit.
@@ -37,5 +42,19 @@ class MealViewModel:ViewModel() {
     // Function to observe the meal details LiveData.
     fun observerDetailsLiveData(): LiveData<Meal>{
         return mealDetailsLiveData
+    }
+
+// Asynchronously inserts a Meal into the Room database using coroutines and viewModelScope.
+    fun insertMeal(meal:Meal){
+        viewModelScope.launch {
+            mealDatabase.MealDao().upsert(meal)
+        }
+    }
+
+    // Asynchronously deletes a Meal from the Room database using coroutines and viewModelScope.
+    fun deleteMeal(meal: Meal){
+        viewModelScope.launch {
+            mealDatabase.MealDao().delete(meal)
+        }
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import pt.ipg.food_app.activities.CategoryMealsActivity
+import pt.ipg.food_app.activities.MainActivity
 import pt.ipg.food_app.activities.MealActivity
 import pt.ipg.food_app.adapters.CategoriesAdapter
 import pt.ipg.food_app.adapters.MostPopularAdapter
@@ -43,7 +44,9 @@ class HomeFragment : Fragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        homeMvvm = ViewModelProvider(this).get(HomeViewModel::class.java)
+        
+        homeMvvm = (activity as MainActivity).viewModel
+        //homeMvvm = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         popularItemsAdapter = MostPopularAdapter()
 
@@ -78,7 +81,6 @@ class HomeFragment : Fragment() {
         onCategoryClick()
 
 
-
     }
 
     // Set up click handling for categories to navigate to CategoryMealsActivity.
@@ -99,6 +101,7 @@ class HomeFragment : Fragment() {
             adapter = categoriesAdapter
         }
     }
+
 
     // Observe changes in the LiveData for categories and log category names for testing.
     private fun observerCategoriesLiveData() {

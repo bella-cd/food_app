@@ -10,17 +10,28 @@ import pt.ipg.food_app.dataclass.MealByCategoryList
 import pt.ipg.food_app.dataclass.MealByCategory
 import pt.ipg.food_app.dataclass.Meal
 import pt.ipg.food_app.dataclass.MealList
+import pt.ipg.food_app.db.MealDatabase
 import pt.ipg.food_app.retrofit.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel (): ViewModel(){
+class HomeViewModel (
+    // Declaration of a MealDatabase instance to handle database operations.
+    private var mealDatabase: MealDatabase
+): ViewModel(){
     // MutableLiveData to hold a random meal
     private var randomMealLiveData = MutableLiveData<Meal>()
 
+    // MutableLiveData to hold a popular meal
     private var popularItemsLiveData = MutableLiveData<List<MealByCategory>>()
+
+    // MutableLiveData to hold a  meals categories
     private var  categoriesLiveData = MutableLiveData<List<Category>>()
+
+// Initializing a LiveData object to observe all favorite
+// meals from the local database.
+    private var favoriteMealsLiveData = mealDatabase.MealDao().getAllMeals()
 
     // Function to fetch a random meal from the network
     fun getRandomMeal(){
@@ -94,5 +105,10 @@ class HomeViewModel (): ViewModel(){
     // Function to provide LiveData for observing changes in the list of categories.
     fun observerCategoriesLiveData(): LiveData<List<Category>>{
         return categoriesLiveData
+    }
+
+    // Function to observe changes in the LiveData representing favorite meals.
+    fun observeFavoriteMealsLiveData(): LiveData<List<Meal>>{
+        return favoriteMealsLiveData
     }
 }

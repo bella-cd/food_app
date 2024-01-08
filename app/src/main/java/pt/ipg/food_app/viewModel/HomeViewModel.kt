@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import pt.ipg.food_app.dataclass.Category
 import pt.ipg.food_app.dataclass.CategoryList
 import pt.ipg.food_app.dataclass.MealByCategoryList
@@ -29,10 +31,9 @@ class HomeViewModel (
     // MutableLiveData to hold a  meals categories
     private var  categoriesLiveData = MutableLiveData<List<Category>>()
 
-// Initializing a LiveData object to observe all favorite
+    // Initializing a LiveData object to observe all favorite
 // meals from the local database.
     private var favoriteMealsLiveData = mealDatabase.MealDao().getAllMeals()
-
     // Function to fetch a random meal from the network
     fun getRandomMeal(){
         RetrofitInstance.foodApi.getRandomMeal().enqueue(object : Callback<MealList> {
@@ -92,6 +93,20 @@ class HomeViewModel (
      })
 
  }
+    // Asynchronously inserts a Meal into the Room database using coroutines and viewModelScope.
+    fun insertMeal(meal:Meal){
+        viewModelScope.launch {
+            mealDatabase.MealDao().upsert(meal)
+        }
+    }
+
+    // Asynchronously deletes a Meal from the Room database using coroutines and viewModelScope.
+    fun deleteMeal(meal: Meal){
+        viewModelScope.launch {
+            mealDatabase.MealDao().delete(meal)
+        }
+    }
+
     // Function to observe the MutableLiveData for random meal data
     fun observeRandomMealLivedata(): LiveData<Meal>{
         return randomMealLiveData

@@ -20,6 +20,7 @@ class MealViewModel (
 ):ViewModel() {
     private var mealDetailsLiveData = MutableLiveData<Meal>()
 
+
     // Function to fetch meal details by ID using Retrofit.
     fun getMealDetails(id: String){
         RetrofitInstance.foodApi.getMealDetails(id).enqueue(object : Callback<MealList> {
@@ -51,10 +52,5 @@ class MealViewModel (
         }
     }
 
-    // Asynchronously deletes a Meal from the Room database using coroutines and viewModelScope.
-    fun deleteMeal(meal: Meal){
-        viewModelScope.launch {
-            mealDatabase.MealDao().delete(meal)
-        }
-    }
+
 }
